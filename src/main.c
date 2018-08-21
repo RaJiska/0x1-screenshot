@@ -6,8 +6,13 @@
  */
 
 #include <stdlib.h>
+#include "nnullptr-screenshot.h"
 
 int main(int argc, char * const *argv)
 {
+	area_coords_t coords;
+
+	if (!retrieve_selected_area(&coords))
+		return EXIT_FAILURE;
 	return EXIT_SUCCESS;
 }

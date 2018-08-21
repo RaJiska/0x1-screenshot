@@ -8,12 +8,16 @@
 #ifndef NNULLPTR_SCREENSHOT_H_
 #define NNULLPTR_SCREENSHOT_H_
 
+#include <stdbool.h>
+
 typedef struct
 {
 	int x;
-	int width;
+	int w;
 	int y;
-	int height;
+	int h;
 } area_coords_t;
+
+bool retrieve_selected_area(area_coords_t *area);
 
 #endif /* NNULLPTR_SCREENSHOT_H_ */
