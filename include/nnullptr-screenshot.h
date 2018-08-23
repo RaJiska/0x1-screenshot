@@ -10,6 +10,8 @@
 
 #include <stdbool.h>
 
+#define IMG_MAX_SIZE 1000 * 1000 * 10 /* 10 MB */
+
 typedef struct
 {
 	int x;
@@ -19,5 +21,6 @@ typedef struct
 } area_coords_t;
 
 bool retrieve_selected_area(area_coords_t *area);
+bool take_screenshot(const area_coords_t *area, void *img_out);
 
 #endif /* NNULLPTR_SCREENSHOT_H_ */

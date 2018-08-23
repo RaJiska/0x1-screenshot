@@ -8,32 +8,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <X11/Xlib.h>
-#include <X11/cursorfont.h>
 #include "nnullptr-screenshot.h"
 
 #ifdef linux
-static inline void draw_rectangle(Display *display, Window window, GC gc, const area_coords_t *area)
+#include <X11/Xlib.h>
+#include <X11/cursorfont.h>
+
+static inline const area_coords_t *retrieve_real_coords(const area_coords_t *area)
 {
-	area_coords_t new;
+	static area_coords_t real;
 
 	if (area->w > 0 && area->h > 0)
-		XDrawRectangle(display, window, gc, area->x, area->y, area->w, area->h);
-	else
+		return area;
+	memcpy(&real, area, sizeof(area_coords_t));
+	if (area->w < 0)
 	{
-		memcpy(&new, area, sizeof(area_coords_t));
-		if (area->w < 0)
-		{
-			new.x += area->w;
-			new.w = -area->w;
-		}
-		if (area->h < 0)
-		{
-			new.y += area->h;
-			new.h = -area->h;
-		}
-		XDrawRectangle(display, window, gc, new.x, new.y, new.w, new.h);
+		real.x += area->w;
+		real.w = -area->w;
 	}
+	if (area->h < 0)
+	{
+		real.y += area->h;
+		real.h = -area->h;
+	}
+	return &real;
+}
+
+static inline void draw_rectangle(Display *display, Window window, GC gc, const area_coords_t *area)
+{
+	static area_coords_t old = { 0 };
+
+	XDrawRectangle(display, window, gc, old.x, old.y, old.w, old.h);
+	XDrawRectangle(display, window, gc, area->x, area->y, area->w, area->h);
+	memcpy(&old, area, sizeof(area_coords_t));
 }
 
 static inline void selection_loop(Display *display, Window window, GC gc, area_coords_t *area)
@@ -41,6 +48,7 @@ static inline void selection_loop(Display *display, Window window, GC gc, area_c
 	XEvent ev;
 	bool done = false;
 	bool mouse_pressed = false;
+	const area_coords_t *real_coords = area;
 
 	while (!done)
 	{
@@ -50,7 +58,7 @@ static inline void selection_loop(Display *display, Window window, GC gc, area_c
 		case MotionNotify:
 			if (mouse_pressed)
 			{
-				draw_rectangle(display, window, gc, area);
+				draw_rectangle(display, window, gc, retrieve_real_coords(area));
 				area->w = ev.xmotion.x - area->x;
 				area->h = ev.xmotion.y - area->y;
 			}
@@ -100,5 +108,7 @@ bool retrieve_selected_area(area_coords_t *area)
 	selection_loop(display, root_window, gc, area);
 	XFreeGC(display, gc);
 	XCloseDisplay(display);
+	memcpy(area, retrieve_real_coords(area), sizeof(area_coords_t));
+	return true;
 }
 #endif /* linux */

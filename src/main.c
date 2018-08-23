@@ -11,8 +11,12 @@
 int main(int argc, char * const *argv)
 {
 	area_coords_t coords;
+	void *img;
 
 	if (!retrieve_selected_area(&coords))
 		return EXIT_FAILURE;
+	img = malloc(IMG_MAX_SIZE);
+	take_screenshot(&coords, img);
+	free(img);
 	return EXIT_SUCCESS;
 }
