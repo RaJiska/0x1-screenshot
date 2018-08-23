@@ -10,6 +10,7 @@
 
 #include <stdbool.h>
 
+#define WEBSITE_URL "http://0x1.rajiska.fr"
 #define IMG_MAX_SIZE 1000 * 1000 * 10 /* 10 MB */
 
 typedef struct
@@ -20,7 +21,15 @@ typedef struct
 	int h;
 } area_coords_t;
 
+typedef struct
+{
+	void *data;
+	unsigned long long int size;
+	area_coords_t area;
+} img_t;
+
 bool retrieve_selected_area(area_coords_t *area);
-bool take_screenshot(const area_coords_t *area, void *img_out);
+bool take_screenshot(img_t *img);
+bool upload_screenshot(const img_t *img);
 
 #endif /* NNULLPTR_SCREENSHOT_H_ */

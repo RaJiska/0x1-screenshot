@@ -10,13 +10,13 @@
 
 int main(int argc, char * const *argv)
 {
-	area_coords_t coords;
-	void *img;
+	img_t img = { 0 };
 
-	if (!retrieve_selected_area(&coords))
+	if (!retrieve_selected_area(&img.area))
 		return EXIT_FAILURE;
-	img = malloc(IMG_MAX_SIZE);
-	take_screenshot(&coords, img);
-	free(img);
+	img.data = malloc(IMG_MAX_SIZE);
+	take_screenshot(&img);
+	upload_screenshot(&img);
+	free(img.data);
 	return EXIT_SUCCESS;
 }

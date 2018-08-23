@@ -17,21 +17,21 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-static void *G_IMGOUT;
+static img_t *G_IMG;
 static unsigned long long int G_IMGOFF = 0;
 
 static void png_write_callback(void *context, void *data, int size)
 {
-	memcpy(G_IMGOUT + G_IMGOFF, data, size);
-	G_IMGOFF += size;
+	memcpy(G_IMG->data + G_IMG->size, data, size);
+	G_IMG->size += size;
 }
 
-bool take_screenshot(const area_coords_t *area, void *img_out)
+bool take_screenshot(img_t *img)
 {
 	Display *display = XOpenDisplay(NULL);
 	Screen *screen;
 	Window window;
-	XImage *img;
+	XImage *ximg;
 	uint8_t *buf;
 	uint8_t *buf_bak;
 	uint32_t pixel;
@@ -40,21 +40,21 @@ bool take_screenshot(const area_coords_t *area, void *img_out)
 		return false;
 	screen = XDefaultScreenOfDisplay(display);
 	window = DefaultRootWindow(display);
-	img = XGetImage(display, window, area->x, area->y, area->w, area->h, AllPlanes, XYPixmap);
-	if (!(buf = buf_bak = malloc(area->w * area->h * 3)))
+	ximg = XGetImage(display, window, img->area.x, img->area.y, img->area.w, img->area.h, AllPlanes, XYPixmap);
+	if (!(buf = buf_bak = malloc(img->area.w * img->area.h * 3)))
 		return false;
-	for (unsigned int y = 0; y < area->h; ++y)
+	for (unsigned int y = 0; y < img->area.h; ++y)
 	{
-		for (unsigned int x = 0; x < area->w; ++x)
+		for (unsigned int x = 0; x < img->area.w; ++x)
 		{
-			pixel = XGetPixel(img, x, y);
+			pixel = XGetPixel(ximg, x, y);
 			(*buf++) = pixel >> 16;
 			(*buf++) = pixel >> 8;
 			(*buf++) = pixel;
 		}
 	}
-	XDestroyImage(img);
-	G_IMGOUT = img_out;
-	stbi_write_png_to_func(png_write_callback, NULL, area->w, area->h, 3, buf_bak, area->w * 3);
+	XDestroyImage(ximg);
+	G_IMG = img;
+	stbi_write_png_to_func(png_write_callback, NULL, img->area.w, img->area.h, 3, buf_bak, img->area.w * 3);
 }
 #endif /* linux */

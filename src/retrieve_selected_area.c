@@ -106,6 +106,7 @@ bool retrieve_selected_area(area_coords_t *area)
 	gc = XCreateGC(display, root_window, GCFunction | GCForeground | GCBackground | GCSubwindowMode, &gcval);
 	memset(area, 0, sizeof(area_coords_t));
 	selection_loop(display, root_window, gc, area);
+	draw_rectangle(display, root_window, gc, &(area_coords_t) { 0 });
 	XFreeGC(display, gc);
 	XCloseDisplay(display);
 	memcpy(area, retrieve_real_coords(area), sizeof(area_coords_t));

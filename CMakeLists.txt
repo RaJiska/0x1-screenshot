@@ -9,6 +9,7 @@ set (SRCS
 	"${SOURCE_DIR}/main.c"
 	"${SOURCE_DIR}/retrieve_selected_area.c"
 	"${SOURCE_DIR}/take_screenshot.c"
+	"${SOURCE_DIR}/upload_screenshot.c"
 )
 
 include_directories("${INCLUDE_DIR}")
