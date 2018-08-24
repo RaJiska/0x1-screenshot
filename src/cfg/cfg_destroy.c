@@ -18,7 +18,7 @@ static void destroy_callback(void *elm)
 	free(elm);
 }
 
-void cfg_destroy(cfg_t *cfg)
+void cfg_destroy(void)
 {
-	list_destroy(&cfg->entries, LIST_FREE_FNC, destroy_callback);
+	list_destroy(&G_CFG.entries, LIST_FREE_FNC, destroy_callback);
 }

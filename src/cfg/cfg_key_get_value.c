@@ -8,11 +8,11 @@
 #include <string.h>
 #include "cfg.h"
 
-const char *cfg_key_get_value(const cfg_t *cfg, const char *key)
+const char *cfg_key_get_value(const char *key)
 {
 	cfg_entry_t *entry;
 
-	for (list_t *curr = cfg->entries; curr; curr = curr->next) {
+	for (list_t *curr = G_CFG.entries; curr; curr = curr->next) {
 		entry = curr->elm;
 		if (!strcmp(entry->key, key))
 			return entry->value;

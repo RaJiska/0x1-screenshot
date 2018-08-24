@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "nnullptr-screenshot.h"
+#include "sshot.h"
 
 #ifdef linux
 #include <X11/Xlib.h>
@@ -78,7 +79,7 @@ static inline void selection_loop(Display *display, Window window, GC gc, area_c
 }
 
 
-bool retrieve_selected_area(area_coords_t *area)
+bool sshot_select_area(area_coords_t *area)
 {
 	Display *display = XOpenDisplay(NULL);
 	Screen *screen;

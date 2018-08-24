@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include "list.h"
 
+#define CFG_KEY_UPLOADURL "uploadurl"
+#define CFG_KEY_SCREENSHOTTOOL "screenshottool"
+
 typedef struct
 {
 	const char *file;
@@ -24,11 +27,12 @@ typedef struct
 	char *value;
 } cfg_entry_t;
 
-extern const cfg_entry_t G_CFG_DEFAULTS[2];
+extern const cfg_entry_t CFG_DEFAULTS[2];
+extern cfg_t G_CFG;
 
-bool cfg_init(cfg_t *cfg);
-const char *cfg_key_get_value(const cfg_t *cfg, const char *key);
+bool cfg_init(void);
+const char *cfg_key_get_value(const char *key);
 const char *cfg_key_get_default_value(const char *key);
-void cfg_destroy(cfg_t *cfg);
+void cfg_destroy(void);
 
 #endif /* CFG_H_ */

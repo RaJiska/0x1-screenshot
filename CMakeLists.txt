@@ -7,9 +7,9 @@ set (LIB_DIR "${PROJECT_SOURCE_DIR}/lib")
 
 set (SRCS
 	"${SOURCE_DIR}/main.c"
-	"${SOURCE_DIR}/retrieve_selected_area.c"
-	"${SOURCE_DIR}/take_screenshot.c"
-	"${SOURCE_DIR}/upload_screenshot.c"
+	"${SOURCE_DIR}/sshot/sshot_select_area.c"
+	"${SOURCE_DIR}/sshot/sshot_capture.c"
+	"${SOURCE_DIR}/sshot/sshot_upload.c"
 	"${SOURCE_DIR}/cfg/cfg_init.c"
 	"${SOURCE_DIR}/cfg/cfg_key_get_value.c"
 	"${SOURCE_DIR}/cfg/cfg_key_get_default_value.c"

@@ -12,6 +12,8 @@
 #include <stdint.h>
 #include <curl/curl.h>
 #include "nnullptr-screenshot.h"
+#include "sshot.h"
+#include "cfg.h"
 
 typedef struct
 {
@@ -47,7 +49,7 @@ static inline size_t write_callback(void *contents, size_t size, size_t nmemb, v
 	return realsize;
 }
 
-bool upload_screenshot(const img_t *img)
+bool sshot_upload(const img_t *img)
 {
 	CURL *curl = curl_easy_init();
 	CURLcode res;
@@ -66,7 +68,7 @@ bool upload_screenshot(const img_t *img)
 		CURLFORM_BUFFERPTR, img->data,
 		CURLFORM_BUFFERLENGTH, img->size,
 		CURLFORM_END);
-	curl_easy_setopt(curl, CURLOPT_URL, WEBSITE_URL);
+	curl_easy_setopt(curl, CURLOPT_URL, cfg_key_get_value(CFG_KEY_SCREENSHOTTOOL));
 	curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &rdata);

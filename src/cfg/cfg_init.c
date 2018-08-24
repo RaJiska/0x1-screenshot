@@ -15,12 +15,14 @@
 #include <unistd.h>
 #endif /* linux */
 
-const cfg_entry_t G_CFG_DEFAULTS[] = {
-	{ "uploadurl", "0x0.st" },
-	{ "screenshottool", "builtin" }
+const cfg_entry_t CFG_DEFAULTS[] = {
+	{ CFG_KEY_UPLOADURL, "0x0.st" },
+	{ CFG_KEY_SCREENSHOTTOOL, "builtin" }
 };
 
-bool cfg_init(cfg_t *cfg)
+cfg_t G_CFG;
+
+bool cfg_init(void)
 {
 	FILE *f;
 	ssize_t rd_len;
@@ -29,13 +31,13 @@ bool cfg_init(cfg_t *cfg)
 	cfg_entry_t *entry;
 
 #ifdef linux
-	cfg->file = !access("/etc/0x1-screenshot/general.cfg", R_OK) ? "/etc/0x1-screenshot/general.cfg" : "config.txt";
+	G_CFG.file = !access("/etc/0x1-screenshot/general.cfg", R_OK) ? "/etc/0x1-screenshot/general.cfg" : "config.txt";
 #elif _WIN32
-	cfg->file = "config.txt";
+	G_CFG.file = "config.txt";
 #endif
-	f = fopen(cfg->file, "r");
+	f = fopen(G_CFG.file, "r");
 	if (!f)
-		return FNC_WARN_RET(bool, false, "Could not read configuration file (%s)", cfg->file);
+		return FNC_WARN_RET(bool, false, "Could not read configuration file (%s)", G_CFG.file);
 	for (char *line = NULL; (rd_len = getline(&line, &(size_t) { 0 }, f)) > 0; line = NULL) {
 		++line_no;
 		if (line[rd_len - 1] == '\n')
@@ -47,7 +49,7 @@ bool cfg_init(cfg_t *cfg)
 		}
 		free(line);
 		if (!wt[0] || !wt[1] || !strlen(utils_clearstr(wt[0])) || !strlen(utils_clearstr(wt[1]))) {
-			FNC_ERROR("Syntax error in config file %s:%d", cfg->file, line_no);
+			FNC_ERROR("Syntax error in config file %s:%d", G_CFG.file, line_no);
 			utils_wt_destroy(wt);
 			continue;
 		}
@@ -55,14 +57,14 @@ bool cfg_init(cfg_t *cfg)
 			utils_wt_destroy(wt);
 			continue;
 		}
-		if (!list_push(&cfg->entries, entry)) {
+		if (!list_push(&G_CFG.entries, entry)) {
 			utils_wt_destroy(wt);
 			free(entry);
 			continue;
 		}
 		entry->key = wt[0];
 		entry->value = wt[1];
-		++cfg->entry_nb;
+		++G_CFG.entry_nb;
 		free(wt);
 	}
 	fclose(f);

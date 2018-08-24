@@ -10,9 +10,9 @@
 
 const char *cfg_key_get_default_value(const char *key)
 {
-	for (int it = 0; it < sizeof(G_CFG_DEFAULTS) / sizeof(cfg_entry_t); ++it) {
-		if (!strcmp(key, G_CFG_DEFAULTS[it].key))
-			return G_CFG_DEFAULTS[it].value;
+	for (int it = 0; it < sizeof(CFG_DEFAULTS) / sizeof(cfg_entry_t); ++it) {
+		if (!strcmp(key, CFG_DEFAULTS[it].key))
+			return CFG_DEFAULTS[it].value;
 	}
 	return NULL;
 }

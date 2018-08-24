@@ -7,16 +7,17 @@
 
 #include <stdlib.h>
 #include "nnullptr-screenshot.h"
+#include "sshot.h"
 
 int main(int argc, char * const *argv)
 {
 	img_t img = { 0 };
 
-	if (!retrieve_selected_area(&img.area))
+	if (!sshot_select_area(&img.area))
 		return EXIT_FAILURE;
-	img.data = malloc(IMG_MAX_SIZE);
-	take_screenshot(&img);
-	upload_screenshot(&img);
+	img.data = malloc(SSHOT_MAX_SIZE);
+	sshot_capture(&img);
+	sshot_upload(&img);
 	free(img.data);
 	return EXIT_SUCCESS;
 }

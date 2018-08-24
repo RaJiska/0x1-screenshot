@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "nnullptr-screenshot.h"
+#include "sshot.h"
 
 #ifdef linux
 #include <X11/Xlib.h>
@@ -26,7 +27,7 @@ static void png_write_callback(void *context, void *data, int size)
 	G_IMG->size += size;
 }
 
-bool take_screenshot(img_t *img)
+bool sshot_capture(img_t *img)
 {
 	Display *display = XOpenDisplay(NULL);
 	Screen *screen;
