@@ -37,7 +37,7 @@ bool cfg_init(void)
 #endif
 	f = fopen(G_CFG.file, "r");
 	if (!f)
-		return FNC_WARN_RET(bool, false, "Could not read configuration file (%s)", G_CFG.file);
+		return FNC_WARN_RET(bool, true, "Could not read configuration file (%s)", G_CFG.file);
 	for (char *line = NULL; (rd_len = getline(&line, &(size_t) { 0 }, f)) > 0; line = NULL) {
 		++line_no;
 		if (line[rd_len - 1] == '\n')
