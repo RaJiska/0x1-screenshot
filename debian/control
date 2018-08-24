@@ -1,0 +1,13 @@
+Source: 0x1-screenshot
+Section: devel
+Priority: optional
+Maintainer: Doriann Corlouer <contact@rajiska.fr>
+Build-Depends: build-essential
+Homepage: http://rajiska.fr
+
+Package: 0x1-screenshot
+Architecture: any
+Depends:
+Description: Screenshot Tool
+ Simple tool allowing you to upload screenshot
+ the Gyazo's way to 0x0 and its sub derivatives

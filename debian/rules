@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_auto_install:
+	install -D -m 0755 obj-x86_64-linux-gnu/0x1-screenshot $$(pwd)/debian/0x1-screenshot/usr/bin/0x1-screenshot
+	install -D -m 0644 0x1-screenshot.desktop $$(pwd)/debian/0x1-screenshot/usr/share/applications/0x1-screenshot.desktop
+	install -D -m 0644 general.cfg $$(pwd)/debian/0x1-screenshot/etc/0x1-screenshot/general.cfg

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=0x1 Screenshot
+Comment=Simple tool allowing you to upload screenshot the Gyazo's way to 0x0 and its sub derivatives
+Keywords=screenshot;capture;upload;
+Exec=0x1-screenshot
+Terminal=false
+Type=Application
+Categories=Utility;Graphics;
+StartupNotify=false
