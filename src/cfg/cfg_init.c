@@ -41,7 +41,7 @@ bool cfg_init(void)
 	for (char *line = NULL; (rd_len = getline(&line, &(size_t) { 0 }, f)) > 0; line = NULL) {
 		++line_no;
 		if (line[rd_len - 1] == '\n')
-			line[rd_len] = 0;
+			line[rd_len - 1] = 0;
 		utils_clearstr(line);
 		if (line[0] == 0 || !(wt = utils_strsplit(line, "=", 1))) {
 			free(line);

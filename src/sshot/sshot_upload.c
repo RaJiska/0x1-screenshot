@@ -62,13 +62,19 @@ bool sshot_upload(const img_t *img)
 		fprintf(stderr, "Could not init curl: %s\n", curl_easy_strerror(res));
 		return false;
 	}
-	curl_formadd(&post, &last,
-		CURLFORM_COPYNAME, "file",
-		CURLFORM_BUFFER, "File_From_0x1_Screenshot",
-		CURLFORM_BUFFERPTR, img->data,
-		CURLFORM_BUFFERLENGTH, img->size,
-		CURLFORM_END);
-	curl_easy_setopt(curl, CURLOPT_URL, cfg_key_get_value(CFG_KEY_SCREENSHOTTOOL));
+	if (img->builtin)
+		curl_formadd(&post, &last,
+			CURLFORM_COPYNAME, "file",
+			CURLFORM_BUFFER, "File_From_0x1_Screenshot",
+			CURLFORM_BUFFERPTR, img->data,
+			CURLFORM_BUFFERLENGTH, img->size,
+			CURLFORM_END);
+	else
+		curl_formadd(&post, &last,
+			CURLFORM_COPYNAME, "file",
+			CURLFORM_FILE, img->file_name,
+			CURLFORM_END);
+	curl_easy_setopt(curl, CURLOPT_URL, cfg_key_get_value(CFG_KEY_UPLOADURL));
 	curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &rdata);

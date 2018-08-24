@@ -74,6 +74,10 @@ static inline void selection_loop(Display *display, Window window, GC gc, area_c
 		case ButtonRelease:
 			done = true;
 			break;
+		case KeyPress:
+			if (ev.xkey.keycode == 0x09)
+				done = true;
+			break;
 		}
 	}
 }
