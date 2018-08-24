@@ -10,8 +10,10 @@ set (SRCS
 	"${SOURCE_DIR}/retrieve_selected_area.c"
 	"${SOURCE_DIR}/take_screenshot.c"
 	"${SOURCE_DIR}/upload_screenshot.c"
-	"${SOURCE_DIR}/cfg/cfg_open.c"
-	"${SOURCE_DIR}/cfg/cfg_close.c"
+	"${SOURCE_DIR}/cfg/cfg_init.c"
+	"${SOURCE_DIR}/cfg/cfg_key_get_value.c"
+	"${SOURCE_DIR}/cfg/cfg_key_get_default_value.c"
+	"${SOURCE_DIR}/cfg/cfg_destroy.c"
 )
 
 include_directories("${INCLUDE_DIR}")

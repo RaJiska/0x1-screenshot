@@ -24,7 +24,11 @@ typedef struct
 	char *value;
 } cfg_entry_t;
 
-bool cfg_open(cfg_t *cfg);
-void cfg_close(cfg_t *cfg);
+extern const cfg_entry_t G_CFG_DEFAULTS[2];
+
+bool cfg_init(cfg_t *cfg);
+const char *cfg_key_get_value(const cfg_t *cfg, const char *key);
+const char *cfg_key_get_default_value(const char *key);
+void cfg_destroy(cfg_t *cfg);
 
 #endif /* CFG_H_ */

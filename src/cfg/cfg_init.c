@@ -15,7 +15,12 @@
 #include <unistd.h>
 #endif /* linux */
 
-bool cfg_open(cfg_t *cfg)
+const cfg_entry_t G_CFG_DEFAULTS[] = {
+	{ "uploadurl", "0x0.st" },
+	{ "screenshottool", "builtin" }
+};
+
+bool cfg_init(cfg_t *cfg)
 {
 	FILE *f;
 	ssize_t rd_len;
