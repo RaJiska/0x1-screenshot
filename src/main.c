@@ -29,12 +29,15 @@ int main(int argc, char * const *argv)
 			return EXIT_SUCCESS;
 		if (!(img.data = malloc(SSHOT_MAX_SIZE)))
 			return FNC_PERROR_RET(int, EXIT_FAILURE, "Could not allocate memory");
-		sshot_capture(&img);
+		if (!sshot_capture(&img))
+			return EXIT_FAILURE;
 #ifdef linux
 	}
 	else
 		sshot_capture_alternate(&img, tool);
 #endif /* linux */
 	sshot_upload(&img);
+	remove(img.file_name);
+	cfg_destroy();
 	return EXIT_SUCCESS;
 }
