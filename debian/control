@@ -2,12 +2,13 @@ Source: 0x1-screenshot
 Section: devel
 Priority: optional
 Maintainer: Doriann Corlouer <contact@rajiska.fr>
-Build-Depends: build-essential
+Build-Depends: build-essential, cmake, debhelper, dh-python, pkg-config, libcurl4-dev, libx11-dev
+Standards-Version: 3.9.8
 Homepage: http://rajiska.fr
 
 Package: 0x1-screenshot
 Architecture: any
-Depends:
+Depends: ${shlibs:Depends}, ${misc:Depends}, libcurl4, libx11-6
 Description: Screenshot Tool
  Simple tool allowing you to upload screenshot
  the Gyazo's way to 0x0 and its sub derivatives
