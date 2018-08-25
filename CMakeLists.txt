@@ -40,6 +40,8 @@ if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE Release)
 endif()
 
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
+
 add_executable(0x1-screenshot ${SRCS})
 target_link_libraries(0x1-screenshot utils)
 target_link_libraries(0x1-screenshot list)
