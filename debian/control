@@ -11,4 +11,5 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libcurl4, libx11-6
 Description: Screenshot Tool
  Simple tool allowing you to upload screenshot
- the Gyazo's way to 0x0 and its sub derivatives
+ the Gyazo's way to 0x0 (https://github.com/lachs0r/0x0)
+ and its sub derivatives
