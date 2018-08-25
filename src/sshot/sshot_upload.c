@@ -15,23 +15,37 @@
 #include "sshot.h"
 #include "cfg.h"
 
+#ifdef linux
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#endif /* linux */
+
 typedef struct
 {
 	uint8_t *data;
 	size_t size;
 } response_data_t;
 
-#ifdef linux
-/* TODO: Ensure response is not evaluated as a shell command */
 static inline void open_uploaded_screenshot(const response_data_t *link)
 {
-	char *buf = malloc(sizeof("xdg-open ") + link->size + 1);
-
-	sprintf(buf, "xdg-open %s", link->data);
-	system(buf);
-	free(buf);
-}
+#ifdef linux
+	pid_t pid;
 #endif /* linux */
+
+	if (!link->data)
+		return;
+#ifdef linux
+	if ((pid = fork()) == -1)
+		return;
+	if (!pid) {
+		execvp("xdg-open", (char * const []) { "xdg-open", link->data, NULL });
+		exit(0);
+	}
+	else
+		waitpid(pid, &(int) { 0 }, 0);
+#endif /* linux */
+}
 
 static inline size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp)
 {

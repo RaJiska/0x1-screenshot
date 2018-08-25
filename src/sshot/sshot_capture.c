@@ -58,5 +58,6 @@ bool sshot_capture(img_t *img)
 	G_IMG = img;
 	stbi_write_png_to_func(png_write_callback, NULL, img->area.w, img->area.h, 3, buf_bak, img->area.w * 3);
 	img->builtin = true;
+	return true;
 }
 #endif /* linux */
